@@ -1,8 +1,6 @@
 use std::collections::HashMap;
 
 fn main() {
-    println!("Hello, world!");
-
     let sentence = "Hello world! This is a beautiful world.";
 
     fn count_words(text: &str) -> HashMap<&str, u32> {
@@ -19,9 +17,11 @@ fn main() {
 
     let map = count_words(sentence);
 
-    let mut result = String::new();
-    for (key, value) in &map {
-        result.push_str(&format!("{}: {}\n", key, value));
-    }
+    let result = map
+        .iter()
+        .map(|(key, value)| format!("{}: {}", key, value))
+        .collect::<Vec<_>>()
+        .join("\n");
+
     println!("{}", result);
 }
