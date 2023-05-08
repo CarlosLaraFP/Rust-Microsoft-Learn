@@ -30,6 +30,8 @@ fn main() {
 
     let map = count_words(sentence);
 
+    println!("{:?}", map);
+
     /*
         In Rust, the && symbol is used to create a reference to a reference, also known as a "double reference".
         A double reference is useful when you need to pass a reference to a reference as a function argument.
@@ -138,4 +140,26 @@ fn main() {
     );
 
     println!("{:?}", car);
+
+    // Declare vector, initialize with three values
+    let mut vector = vec![15, 3, 46];
+    vector.push(1);
+    let second = vector[1];
+    vector[2] = vector[2] + 10;
+    println!("Vector: {:?}, second = {}", vector, second);
+
+    // Declare vector, value = "0", length = 5
+    let zeroes = vec![0; 5];
+    println!("Zeroes: {:?}", zeroes);
+
+    let mut fruit = Vec::new();
+    fruit.push("Apple");
+    fruit.push("Strawberry");
+    // consider using a `let` binding to create a longer lived value
+    let lower = fruit[1].to_lowercase();
+    fruit[1] = lower.as_str();
+    // temporary value is freed at the end of this statement
+    // creates a temporary value which is freed while still in use
+    // fruit[1] = fruit[1].to_lowercase().as_str();
+    println!("Vector: {:?}", fruit); // borrow later used here
 }
