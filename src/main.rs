@@ -2,7 +2,8 @@ mod structs;
 
 use std::collections::HashMap;
 use rayon::prelude::*;
-use structs::Quote;
+use structs::*;
+
 
 fn main() {
     /*
@@ -108,7 +109,8 @@ fn main() {
     let shadow_num = shadow_num * 2;
     println!("The number is {}.", shadow_num);
 
-    let quote = Quote { uuid: String::from("12345"), amount: 11.23, index: 1, accepted: true };
+    let quote = from_quote_factory(11.23, true);
 
     println!("{}", quote.amount);
+    println!("{}", quote.uuid);
 }
