@@ -1,8 +1,10 @@
 mod structs;
+mod car;
 
 use std::collections::HashMap;
 use rayon::prelude::*;
 use structs::*;
+use car::*;
 
 
 fn main() {
@@ -126,4 +128,14 @@ fn main() {
     let request = Pricing::Request(request);
     let response = Pricing::Response(response);
     println!("\nPricing enum structure: \n\n {:#?} \n\n {:#?}", request, response);
+
+    let car = car_factory(
+        String::from("Maserati"),
+        String::from("Grecale"),
+        String::from("Grigio Lava Metallic"),
+        Transmission::Automatic,
+        false
+    );
+
+    println!("{:?}", car);
 }

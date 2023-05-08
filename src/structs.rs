@@ -75,3 +75,27 @@ pub fn from_quote_factory(amount: f32, accepted: bool, entangled: Option<&str>) 
         index: 1
     }
 }
+
+/*
+    In Rust, a macro is a way to write code that writes code.
+    Macros allow you to define a piece of code that can be reused in multiple places and can be
+    parameterized with different values, types, or expressions. Rust macros are similar to macros
+    in other programming languages like C or Lisp, but they are more powerful and flexible because
+    Rust macros are implemented as part of the Rust compiler, rather than being implemented as part of the preprocessor.
+
+    There are two types of macros in Rust: declarative macros and procedural macros.
+
+    Declarative macros are defined using the macro_rules! macro.
+    They are also sometimes called "macro by example" macros because they are defined by providing
+    examples of input and output. Declarative macros are expanded at compile-time and allow you to
+    define new syntactic constructs that are not available in the language.
+    Examples of declarative macros include vec! and println!.
+
+    Procedural macros, on the other hand, are defined using Rust code that is executed at compile-time.
+    Procedural macros can be used to define custom attributes, derive traits, or generate code
+    based on Rust code. Procedural macros are more flexible than declarative macros because they can
+    generate code that depends on the values of variables and expressions at compile-time.
+    Examples of procedural macros include #[derive(...)] and #[wasm_bindgen].
+
+    Overall, macros are an important tool in Rust for reducing code duplication, increasing expressiveness, and enabling advanced metaprogramming techniques.
+ */
