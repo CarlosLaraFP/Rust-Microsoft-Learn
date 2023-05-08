@@ -109,8 +109,9 @@ fn main() {
     let shadow_num = shadow_num * 2;
     println!("The number is {}.", shadow_num);
 
-    let quote = from_quote_factory(11.23, true);
+    let quote = from_quote_factory(11.23, true, Some(sentence));
 
     println!("{}", quote.amount);
     println!("{}", quote.uuid);
+    println!("{}", quote.notes.unwrap_or_default());
 }
