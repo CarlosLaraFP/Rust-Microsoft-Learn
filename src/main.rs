@@ -113,5 +113,5 @@ fn main() {
 
     println!("{}", quote.amount);
     println!("{}", quote.uuid);
-    println!("{}", quote.notes.unwrap_or_default());
+    println!("{}", quote.entangled.unwrap_or_default());
 }
