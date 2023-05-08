@@ -1,7 +1,8 @@
 use std::collections::HashMap;
+use rayon::prelude::*;
 
 fn main() {
-    let sentence = "Hello world! This is a beautiful world.";
+    let sentence = "Hello world? This is a _beautiful_ world. !This is my home!";
 
     fn count_words(text: &str) -> HashMap<&str, u32> {
         let mut counts = HashMap::new();
@@ -24,4 +25,28 @@ fn main() {
         .join("\n");
 
     println!("{}", result);
+
+    fn sum_of_squares(input: &[i32]) -> i32 {
+        input
+            .iter()
+            .map(|&i| i * i)
+            .sum()
+    }
+
+    let slice = [1, 2, 3];
+    let expected = 14;
+    let result = sum_of_squares(&slice);
+
+    assert!(result.eq(&expected));
+
+    fn sum_of_squares_par(input: &[i32]) -> i32 {
+        input
+            .par_iter()
+            .map(|&i| i * i)
+            .sum()
+    }
+
+    let par_result_commutative = sum_of_squares_par(&slice);
+
+    assert!(par_result_commutative.eq(&expected));
 }
