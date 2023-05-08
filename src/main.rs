@@ -33,11 +33,11 @@ fn main() {
             .sum()
     }
 
-    let slice = [1, 2, 3];
-    let expected = 14;
-    let result = sum_of_squares(&slice);
-
-    assert!(result.eq(&expected));
+    let slice = &[1, 2, 3];
+    let expected = &14;
+    // Shadowing results in a memory leak? I think Rust is smart enough to know, otherwise it would not compile.
+    let result = &sum_of_squares(slice);
+    assert!(result.eq(expected));
 
     fn sum_of_squares_par(input: &[i32]) -> i32 {
         input
@@ -46,7 +46,7 @@ fn main() {
             .sum()
     }
 
-    let par_result_commutative = sum_of_squares_par(&slice);
+    let par_result_commutative = &sum_of_squares_par(slice);
 
-    assert!(par_result_commutative.eq(&expected));
+    assert!(par_result_commutative.eq(expected));
 }
