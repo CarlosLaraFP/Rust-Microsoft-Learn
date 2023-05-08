@@ -114,4 +114,16 @@ fn main() {
     println!("{}", quote.amount);
     println!("{}", quote.uuid);
     println!("{}", quote.entangled.unwrap_or_default());
+    println!("{:#?}", quote);
+
+    let request = PostRequest {
+        customer_id: 123456
+    };
+    let response = PostResponse {
+        quote_uuid: String::from("cabc33f5-5edf-4ef0-b698-d3a33dfc15fe"),
+        amount: 99.99
+    };
+    let request = Pricing::Request(request);
+    let response = Pricing::Response(response);
+    println!("\nPricing enum structure: \n\n {:#?} \n\n {:#?}", request, response);
 }
