@@ -155,6 +155,8 @@ fn main() {
     let mut fruit = Vec::new();
     fruit.push("Apple");
     fruit.push("Strawberry");
+    fruit.push("Orange");
+    fruit.pop();
     // consider using a `let` binding to create a longer lived value
     let lower = fruit[1].to_lowercase();
     fruit[1] = lower.as_str();
@@ -162,4 +164,7 @@ fn main() {
     // creates a temporary value which is freed while still in use
     // fruit[1] = fruit[1].to_lowercase().as_str();
     println!("Vector: {:?}", fruit); // borrow later used here
+
+    let quality = car_quality(9);
+    println!("{:?}", quality);
 }
