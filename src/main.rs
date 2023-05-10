@@ -156,13 +156,10 @@ fn main() {
     // fruit[1] = fruit[1].to_lowercase().as_str();
     println!("Vector: {:?}", fruit); // borrow later used here
 
-    //let colors = [Color::Blue, Color::Green, Color::Red, Color::Silver];
-    let colors = ["Blue", "Green", "Red", "Silver"];
-
     let new_car = car_factory(
         String::from("Maserati"),
         String::from("Grecale"),
-        String::from(colors[3]),
+        Color::Silver,
         Transmission::Manual,
         false,
         9
@@ -173,11 +170,37 @@ fn main() {
     let used_car = car_factory(
         String::from("Maserati"),
         String::from("Folgore"),
-        String::from(colors[3]),
+        Color::Green,
         Transmission::Automatic,
         true,
         150
     );
 
     println!("{:?}", used_car);
+
+    let rust = "Programming in Rust";
+    let scala = "Programming in Scala";
+    let python = "Programming in Python";
+
+    let mut reviews = HashMap::new();
+
+    reviews.insert(rust, "Great mission");
+    reviews.insert(scala, "Great foundation");
+    reviews.insert(python, "Requires compiler");
+    reviews.remove(python);
+
+    let key = reviews.get(rust); // immutable borrow occurs here
+    let scala_key = reviews.entry(scala).or_default(); // mutable borrow
+    *scala_key = "Great foundation for Rust systems programming"; // replaced with a new immutable string pointer
+    // Rust allows it because the HashMap owns its keys, and or_default returns a mutable pointer to &str
+    // println!("{:?}", key); // immutable borrow later used here
+    println!("{:?}", reviews.get(rust));
+    println!("{:?}", reviews.get(python));
+    println!("{:?}", reviews.get(scala));
+    /*
+        "cannot borrow `reviews` as mutable because it is also borrowed as immutable"
+        Somehow, alternating immutable borrows with mutable borrows
+        for the same object is not allowed by Rust.
+        I think it's because the HashMap would not be thread-safe.
+     */
 }

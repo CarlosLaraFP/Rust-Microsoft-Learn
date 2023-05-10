@@ -6,7 +6,7 @@
 pub struct Car {
     make: String,
     model: String,
-    color: String,
+    color: Color,
     transmission: Transmission,
     convertible: bool,
     age: (Age, u32)
@@ -34,13 +34,12 @@ pub enum Color {
 }
 
 // Best practice: a struct should own its own data
-pub fn car_factory(make: String, model: String, color: String, transmission: Transmission, convertible: bool, miles: u32) -> Car {
+pub fn car_factory(make: String, model: String, color: Color, transmission: Transmission, convertible: bool, miles: u32) -> Car {
     if miles >= 10 {
         if convertible {
-            println!("Prepare a used car: {:?}, {}, Convertible, {} miles\n", transmission, color, miles);
+            println!("Prepare a used car: {:?}, {:?}, Convertible, {} miles", transmission, color, miles);
         }
     }
-
     Car {
         make,
         model,
