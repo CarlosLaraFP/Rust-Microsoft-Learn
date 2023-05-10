@@ -1,6 +1,6 @@
 // process new car orders
 
-// enum is like a Scala sealed trait and struct is like a Scala case class
+// enum is like a Scala sealed trait's companion object and struct is like a mutable Scala case class
 
 #[derive(PartialEq, Debug)]
 pub struct Car {
@@ -25,19 +25,38 @@ pub enum Age {
     Used
 }
 
-pub fn car_factory(make: String, model: String, color: String, transmission: Transmission, convertible: bool) -> Car {
+#[derive(PartialEq, Debug)]
+pub enum Color {
+    Blue,
+    Green,
+    Red,
+    Silver
+}
+
+// Best practice: a struct should own its own data
+pub fn car_factory(make: String, model: String, color: String, transmission: Transmission, convertible: bool, miles: u32) -> Car {
+    if miles >= 10 {
+        if convertible {
+            println!("Prepare a used car: {:?}, {}, Convertible, {} miles\n", transmission, color, miles);
+        }
+    }
+
     Car {
         make,
         model,
         color,
         transmission,
         convertible,
-        age: (Age::New, 0)
+        age: car_quality(miles)
     }
 }
 
-pub fn car_quality(miles: u32) -> (Age, u32) {
-    let quality: (Age, u32) = (Age::New, miles);
-    quality
+fn car_quality(miles: u32) -> (Age, u32) {
+    if miles < 10 {
+        (Age::New, miles)
+    }
+    else {
+        (Age::Used, miles)
+    }
 }
 

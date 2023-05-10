@@ -23,6 +23,7 @@ fn main() {
                 !char::is_alphabetic(c)
             });
             let count = counts.entry(word).or_default();
+            // dereference operator
             *count += 1;
         }
         counts
@@ -131,16 +132,6 @@ fn main() {
     let response = Pricing::Response(response);
     println!("\nPricing enum structure: \n\n {:#?} \n\n {:#?}", request, response);
 
-    let car = car_factory(
-        String::from("Maserati"),
-        String::from("Grecale"),
-        String::from("Grigio Lava Metallic"),
-        Transmission::Automatic,
-        false
-    );
-
-    println!("{:?}", car);
-
     // Declare vector, initialize with three values
     let mut vector = vec![15, 3, 46];
     vector.push(1);
@@ -165,6 +156,28 @@ fn main() {
     // fruit[1] = fruit[1].to_lowercase().as_str();
     println!("Vector: {:?}", fruit); // borrow later used here
 
-    let quality = car_quality(9);
-    println!("{:?}", quality);
+    //let colors = [Color::Blue, Color::Green, Color::Red, Color::Silver];
+    let colors = ["Blue", "Green", "Red", "Silver"];
+
+    let new_car = car_factory(
+        String::from("Maserati"),
+        String::from("Grecale"),
+        String::from(colors[3]),
+        Transmission::Manual,
+        false,
+        9
+    );
+
+    println!("{:?}", new_car);
+
+    let used_car = car_factory(
+        String::from("Maserati"),
+        String::from("Folgore"),
+        String::from(colors[3]),
+        Transmission::Automatic,
+        true,
+        150
+    );
+
+    println!("{:?}", used_car);
 }
