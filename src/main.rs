@@ -263,4 +263,45 @@ fn main() {
     // pick the 99th item, which is non-existent:
     let non_existent = fruits.get(99);
     println!("{:?}", non_existent);
+
+    /*
+        match arms are evaluated from top to bottom.
+        Specific cases must be defined earlier than generic cases or they'll never be matched and evaluated.
+        match arms must cover every possible value that the input type could have.
+        You'll get a compiler error if you try to match against a non-exhaustive pattern list (no partial functions).
+     */
+    // Interesting, prefixing with & converts &i32 to usize
+    for &index in [4, 2, 99].iter() {
+        match fruits.get(index) {
+            Some(&"coconut") => println!("Coconuts are awesome!!!"),
+            Some(fruit_name) => println!("It's a delicious {}!", fruit_name),
+            None => println!("There is no fruit! :("),
+        }
+    }
+
+    let a_number: Option<u8> = Some(7);
+    match a_number {
+        Some(7) => println!("That's my lucky number!"),
+        _ => {}
+    }
+    /*
+        An if let operator compares a pattern with an expression.
+        If the expression matches the pattern, the if block is executed.
+        The nice thing about if let expressions is that you don't need all the boilerplate code
+        of a match expression when you're interested in a single pattern to match against.
+     */
+    if let Some(7) = a_number {
+        println!("That's my lucky number, cleaner");
+    }
+
+    /*
+        Because this function may panic, its use is generally discouraged.
+        Instead, prefer to use pattern matching and handle the None case explicitly,
+        or call unwrap_or, unwrap_or_else, or unwrap_or_default.
+     */
+    let gift = Some("computer");
+    assert_eq!(gift.unwrap(), "computer");
+
+    assert_eq!(Some("dog").unwrap_or("cat"), "dog");
+    assert_eq!(None.unwrap_or("cat"), "cat");
 }
