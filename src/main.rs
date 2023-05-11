@@ -203,38 +203,61 @@ fn main() {
         In essence, the original key binding is no longer a pointer to the HashMap key's value.
      */
 
+    // Define a hash map with <K, V> pairs.
+    // The hash map keys will correspond to the car order numbers.
+    // The hash map values will be the order details for each as defined in a Car struct.
+
     // Initialize counter variable
     let mut order = 1;
-    // Declare a car as mutable "Car" struct
-    let mut car: Car;
+    let mut car_orders = HashMap::new();
 
-    // Order 6 cars, increment "order" for each request
-    // Car order #1: Used, Hard top
-    car = car_factory(order, 1000);
-    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+    car_orders.insert(order, car_factory(order, 1000));
+    println!("Car order {}: {:?}", order, car_orders.get(&order));
+    order += 1;
 
-    // Car order #2: Used, Convertible
-    order = order + 1;
-    car = car_factory(order, 2000);
-    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+    car_orders.insert(order, car_factory(order, 2000));
+    println!("Car order {}: {:?}", order, car_orders.get(&order));
+    order += 1;
 
-    // Car order #3: New, Hard top
-    order = order + 1;
-    car = car_factory(order, 0);
-    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+    car_orders.insert(order, car_factory(order, 0));
+    println!("Car order {}: {:?}", order, car_orders.get(&order));
+    order += 1;
 
-    // Car order #4: New, Convertible
-    order = order + 1;
-    car = car_factory(order, 0);
-    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+    car_orders.insert(order, car_factory(order, 0));
+    println!("Car order {}: {:?}", order, car_orders.get(&order));
+    order += 1;
 
-    // Car order #5: Used, Hard top
-    order = order + 1;
-    car = car_factory(order, 3000);
-    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+    car_orders.insert(order, car_factory(order, 3000));
+    println!("Car order {}: {:?}", order, car_orders.get(&order));
+    order += 1;
 
-    // Car order #6: Used, Hard top
-    order = order + 1;
-    car = car_factory(order, 4000);
-    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+    car_orders.insert(order, car_factory(order, 4000));
+    println!("Car order {}: {:?}", order, car_orders.get(&order));
+    order += 1;
+
+    let mut counter = 1;
+    // stop_loop is set when loop stops
+    let stop_loop = loop {
+        counter *= 2;
+        if counter > 100 {
+            // Stop loop, return counter value
+            break counter;
+        }
+    };
+    // Loop should break when counter = 128
+    println!("Break the loop at counter = {}", stop_loop);
+
+    while counter < 150 {
+        counter += 1;
+    }
+    println!("{}", counter);
+
+    let big_birds = ["ostrich", "peacock", "stork"];
+    for bird in big_birds.iter() {
+        println!("The {} is a big bird.", bird);
+    }
+
+    for number in 0..5 {
+        println!("{}", number * 2);
+    }
 }
