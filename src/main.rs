@@ -241,12 +241,26 @@ fn main() {
     }
     println!("{}", counter);
 
-    let big_birds = ["ostrich", "peacock", "stork"];
+    let big_birds = ["apple", "coconut", "orange"];
     for bird in big_birds.iter() {
-        println!("The {} is a big bird.", bird);
+        println!("Fruit: {}", bird);
     }
 
-    for number in 0..5 {
+    for number in 0..3 {
         println!("{}", number * 2);
     }
+
+    let fruits = vec!["banana", "apple", "coconut", "orange", "strawberry"];
+
+    // pick the first item:
+    let first = fruits.get(0);
+    println!("{:?}", first);
+
+    // pick the third item:
+    let third = fruits.get(2);
+    println!("{:?}", third);
+
+    // pick the 99th item, which is non-existent:
+    let non_existent = fruits.get(99);
+    println!("{:?}", non_existent);
 }
