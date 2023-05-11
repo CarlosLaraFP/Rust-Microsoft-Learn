@@ -41,10 +41,8 @@ pub fn car_factory(order: i32, miles: u32) -> Car {
     // Valid color = 1, 2, 3, or 4
     // usize is typically used as the type for array indices and pointers
     let mut color = order as usize;
-    // If color > 4, reduce color to valid index
-    if color > colors.len() {
-        // color = 5 --> index 1, 6 --> 2, 7 --> 3, 8 --> 4
-        color = color % colors.len();
+    while color > 4 {
+        color = color - colors.len();
     }
 
     // Add variety to orders for motor type and roof type

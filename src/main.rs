@@ -209,13 +209,19 @@ fn main() {
 
     let mut car_orders = HashMap::new();
 
-    let miles_array: [u32; 6] = [1000, 2000, 0, 0, 3000, 4000];
+    let mut miles = 0;
 
     // A binding in Rust is a named reference to a value, which can be mutable or immutable
-    for n in 0 .. miles_array.len() {
-        let order = (n + 1) as i32;
-        car_orders.insert(order, car_factory(order, miles_array[n]));
+    for order in 1 .. 12 {
+        car_orders.insert(order, car_factory(order, miles));
         println!("Car order {}: {:?}", order, car_orders.get(&order));
+
+        // Reset miles for order variety
+        if miles == 2100 {
+            miles = 0;
+        } else {
+            miles = miles + 700;
+        }
     }
 
     let mut counter = 1;
