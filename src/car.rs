@@ -6,10 +6,10 @@
 pub struct Car {
     make: String,
     model: String,
-    color: Color,
-    transmission: Transmission,
-    convertible: bool,
-    age: (Age, u32)
+    pub color: String,
+    pub motor: Transmission,
+    pub roof: bool,
+    pub age: (Age, u32)
 }
 
 #[derive(PartialEq, Debug)]
@@ -34,18 +34,37 @@ pub enum Color {
 }
 
 // Best practice: a struct should own its own data
-pub fn car_factory(make: String, model: String, color: Color, transmission: Transmission, convertible: bool, miles: u32) -> Car {
-    if miles >= 10 {
-        if convertible {
-            println!("Prepare a used car: {:?}, {:?}, Convertible, {} miles", transmission, color, miles);
-        }
+
+pub fn car_factory(order: i32, miles: u32) -> Car {
+    let colors = ["Blue", "Green", "Red", "Silver"];
+    // Prevent panic: Check color index for colors array, reset as needed
+    // Valid color = 1, 2, 3, or 4
+    // usize is typically used as the type for array indices and pointers
+    let mut color = order as usize;
+    // If color > 4, reduce color to valid index
+    if color > colors.len() {
+        // color = 5 --> index 1, 6 --> 2, 7 --> 3, 8 --> 4
+        color = color % colors.len();
     }
+
+    // Add variety to orders for motor type and roof type
+    let mut motor = Transmission::Manual;
+    let mut roof = true;
+
+    if order % 3 == 0 {          // 3, 6, 9
+        motor = Transmission::Automatic;
+    }
+    else if order % 2 == 0 {   // 2, 4, 8, 10
+        motor = Transmission::SemiAuto;
+        roof = false;
+    }                            // 1, 5, 7, 11
+
     Car {
-        make,
-        model,
-        color,
-        transmission,
-        convertible,
+        make: String::from("Maserati"),
+        model: String::from("Folgore"),
+        color: String::from(colors[(color-1) as usize]),
+        motor,
+        roof,
         age: car_quality(miles)
     }
 }

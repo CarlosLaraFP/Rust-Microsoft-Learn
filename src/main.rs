@@ -157,22 +157,14 @@ fn main() {
     println!("Vector: {:?}", fruit); // borrow later used here
 
     let new_car = car_factory(
-        String::from("Maserati"),
-        String::from("Grecale"),
-        Color::Silver,
-        Transmission::Manual,
-        false,
+        9,
         9
     );
 
     println!("{:?}", new_car);
 
     let used_car = car_factory(
-        String::from("Maserati"),
-        String::from("Folgore"),
-        Color::Green,
-        Transmission::Automatic,
-        true,
+        2,
         150
     );
 
@@ -189,18 +181,60 @@ fn main() {
     reviews.insert(python, "Requires compiler");
     reviews.remove(python);
 
-    let key = reviews.get(rust); // immutable borrow occurs here
-    let scala_key = reviews.entry(scala).or_default(); // mutable borrow
+    let reviews_rust_key = reviews.get(rust).unwrap_or(&"Rust review is missing"); // .get immutable borrow occurs here
+    println!("{:?}", reviews_rust_key);
+
+    let scala_key = reviews.entry(scala).or_default(); // .entry mutable borrow
     *scala_key = "Great foundation for Rust systems programming"; // replaced with a new immutable string pointer
     // Rust allows it because the HashMap owns its keys, and or_default returns a mutable pointer to &str
-    // println!("{:?}", key); // immutable borrow later used here
-    println!("{:?}", reviews.get(rust));
+    let fresh_binding = reviews.get(rust); // this works because it's a brand-new reference post-mutation(s)
+    println!("{:?}", fresh_binding);
     println!("{:?}", reviews.get(python));
     println!("{:?}", reviews.get(scala));
+    //println!("{:?}", reviews_rust_key); // immutable borrow later used here
     /*
         "cannot borrow `reviews` as mutable because it is also borrowed as immutable"
+        "cannot borrow `reviews` as mutable more than once at a time"
         Somehow, alternating immutable borrows with mutable borrows
         for the same object is not allowed by Rust.
         I think it's because the HashMap would not be thread-safe.
+        The problem is using a previous binding to a reference that might have changed since then
+        (unsafe => memory safety cannot be guaranteed at compile time)
+        In essence, the original key binding is no longer a pointer to the HashMap key's value.
      */
+
+    // Initialize counter variable
+    let mut order = 1;
+    // Declare a car as mutable "Car" struct
+    let mut car: Car;
+
+    // Order 6 cars, increment "order" for each request
+    // Car order #1: Used, Hard top
+    car = car_factory(order, 1000);
+    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+
+    // Car order #2: Used, Convertible
+    order = order + 1;
+    car = car_factory(order, 2000);
+    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+
+    // Car order #3: New, Hard top
+    order = order + 1;
+    car = car_factory(order, 0);
+    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+
+    // Car order #4: New, Convertible
+    order = order + 1;
+    car = car_factory(order, 0);
+    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+
+    // Car order #5: Used, Hard top
+    order = order + 1;
+    car = car_factory(order, 3000);
+    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
+
+    // Car order #6: Used, Hard top
+    order = order + 1;
+    car = car_factory(order, 4000);
+    println!("{}: {:?}, Hard top = {}, {:?}, {}, {} miles", order, car.age.0, car.roof, car.motor, car.color, car.age.1);
 }
