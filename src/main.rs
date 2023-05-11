@@ -23,7 +23,7 @@ fn main() {
                 !char::is_alphabetic(c)
             });
             let count = counts.entry(word).or_default();
-            // dereference operator
+            // dereference operator to increment the actual value the reference points to
             *count += 1;
         }
         counts
@@ -207,33 +207,16 @@ fn main() {
     // The hash map keys will correspond to the car order numbers.
     // The hash map values will be the order details for each as defined in a Car struct.
 
-    // Initialize counter variable
-    let mut order = 1;
     let mut car_orders = HashMap::new();
 
-    car_orders.insert(order, car_factory(order, 1000));
-    println!("Car order {}: {:?}", order, car_orders.get(&order));
-    order += 1;
+    let miles_array: [u32; 6] = [1000, 2000, 0, 0, 3000, 4000];
 
-    car_orders.insert(order, car_factory(order, 2000));
-    println!("Car order {}: {:?}", order, car_orders.get(&order));
-    order += 1;
-
-    car_orders.insert(order, car_factory(order, 0));
-    println!("Car order {}: {:?}", order, car_orders.get(&order));
-    order += 1;
-
-    car_orders.insert(order, car_factory(order, 0));
-    println!("Car order {}: {:?}", order, car_orders.get(&order));
-    order += 1;
-
-    car_orders.insert(order, car_factory(order, 3000));
-    println!("Car order {}: {:?}", order, car_orders.get(&order));
-    order += 1;
-
-    car_orders.insert(order, car_factory(order, 4000));
-    println!("Car order {}: {:?}", order, car_orders.get(&order));
-    order += 1;
+    // A binding in Rust is a named reference to a value, which can be mutable or immutable
+    for n in 0 .. miles_array.len() {
+        let order = (n + 1) as i32;
+        car_orders.insert(order, car_factory(order, miles_array[n]));
+        println!("Car order {}: {:?}", order, car_orders.get(&order));
+    }
 
     let mut counter = 1;
     // stop_loop is set when loop stops
