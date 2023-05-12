@@ -1,12 +1,14 @@
 mod quote;
 mod car;
 mod person;
+mod file;
 
 use std::collections::HashMap;
 use rayon::prelude::*;
 use quote::*;
 use car::*;
 use person::*;
+use file::*;
 
 
 fn main() {
@@ -331,4 +333,15 @@ fn main() {
         last: String::from("Jones"),
     };
     assert_eq!(build_full_name(&bob), "Robert Murdock Jones");
+
+    println!("{:?}", safe_division(9.0, 3.0));
+    println!("{:?}", safe_division(4.0, 0.0));
+    println!("{:?}", safe_division(0.0, 2.0));
+
+    if read_file_contents(std::path::PathBuf::from("src/main.rs")).is_ok() {
+        println!("The program found the main file.");
+    }
+    if read_file_contents(std::path::PathBuf::from("non-existent-file.txt")).is_err() {
+        println!("The program reported an error for the file that doesn't exist.");
+    }
 }

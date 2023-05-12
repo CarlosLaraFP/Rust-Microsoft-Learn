@@ -18,3 +18,14 @@ pub fn build_full_name(person: &Person) -> String {
     full_name.push_str(&person.last);
     full_name
 }
+
+#[derive(Debug)]
+pub struct DivisionByZeroError;
+
+pub fn safe_division(dividend: f64, divisor: f64) -> Result<f64, DivisionByZeroError> {
+    if divisor == 0.0 {
+        Err(DivisionByZeroError)
+    } else {
+        Ok(dividend / divisor)
+    }
+}
