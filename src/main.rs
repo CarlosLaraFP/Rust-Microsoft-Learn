@@ -344,4 +344,24 @@ fn main() {
     if read_file_contents(std::path::PathBuf::from("non-existent-file.txt")).is_err() {
         println!("The program reported an error for the file that doesn't exist.");
     }
+
+    fn change(text: &mut String) {
+        text.push_str(", world");
+    }
+
+    fn longest_word<'a>(x: &'a String, y: &'a String) -> &'a String {
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
+    #[derive(Debug)]
+    struct Highlight<'document>(&'document str);
+    let text = String::from("The quick brown fox jumps over the lazy dog.");
+    let fox = Highlight(&text[4..19]);
+    let dog = Highlight(&text[35..43]);
+    println!("{:?}", fox);
+    println!("{:?}", dog);
 }
