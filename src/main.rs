@@ -1,10 +1,12 @@
-mod structs;
+mod quote;
 mod car;
+mod person;
 
 use std::collections::HashMap;
 use rayon::prelude::*;
-use structs::*;
+use quote::*;
 use car::*;
+use person::*;
 
 
 fn main() {
@@ -234,7 +236,11 @@ fn main() {
         }
     };
     // Loop should break when counter = 128
-    println!("Break the loop at counter = {}", stop_loop);
+    println!("Break the loop at counter = {}", stop_loop); // 128
+
+    // the addition operator commutes for integers
+    //let accumulated =
+    //println!("Break the loop at counter = {}", accumulated); // 128
 
     while counter < 150 {
         counter += 1;
@@ -304,4 +310,25 @@ fn main() {
 
     assert_eq!(Some("dog").unwrap_or("cat"), "dog");
     assert_eq!(None.unwrap_or("cat"), "cat");
+
+    let john = Person {
+        first: String::from("James"),
+        middle: Some(String::from("Oliver")),
+        last: String::from("Smith"),
+    };
+    assert_eq!(build_full_name(&john), "James Oliver Smith");
+
+    let alice = Person {
+        first: String::from("Alice"),
+        middle: None,
+        last: String::from("Stevens"),
+    };
+    assert_eq!(build_full_name(&alice), "Alice Stevens");
+
+    let bob = Person {
+        first: String::from("Robert"),
+        middle: Some(String::from("Murdock")),
+        last: String::from("Jones"),
+    };
+    assert_eq!(build_full_name(&bob), "Robert Murdock Jones");
 }
