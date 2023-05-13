@@ -387,5 +387,42 @@ fn main() {
     assert_eq!(
         names,
         vec!["Joe".to_string(), "Chris".to_string(), "Anne".to_string()]
-    )
+    );
+
+    struct Point<T, U> {
+        x: T,
+        y: U,
+    }
+
+    let integer_and_boolean = Point { x: 5, y: false };
+    let float_and_string = Point { x: 1.0, y: "hey" };
+    let integer_and_float = Point { x: 5, y: 4.0 };
+    let both_integer = Point { x: 10, y: 30 };
+    let both_boolean = Point { x: true, y: true };
+
+    trait Area<T> {
+        fn area(&self) -> T;
+    }
+
+    struct Circle {
+        radius: f64,
+    }
+
+    struct Rectangle {
+        width: f64,
+        height: f64,
+    }
+
+    impl Area<f64> for Circle {
+        fn area(&self) -> f64 {
+            use std::f64::consts::PI;
+            PI * self.radius.powf(2.0)
+        }
+    }
+
+    impl Area<f64> for Rectangle {
+        fn area(&self) -> f64 {
+            self.width * self.height
+        }
+    }
 }
