@@ -3,6 +3,7 @@ mod car;
 mod person;
 mod file;
 
+use std::any::Any;
 use std::collections::HashMap;
 use rayon::prelude::*;
 use quote::*;
@@ -453,28 +454,100 @@ fn main() {
 
     trait AsJson {
         fn as_json(&self) -> String;
-        fn increment(&mut self);
+        //fn increment(&mut self);
     }
 
     impl AsJson for Point<i32, i32> {
         fn as_json(&self) -> String {
             format!("{{x:{},y:{}}}", &self.x, &self.y)
         }
-
-        fn increment(&mut self) {
-            self.x += 1;
-        }
     }
 
     // Make sure to specify reference parameters to avoid unnecessary memory allocations
-    fn send_data_as_json(value: &mut impl AsJson) {
+    fn send_data_as_json_v2(value: &mut impl AsJson) {
         println!("Sending JSON data to microcontroller...");
         println!("-> {}", value.as_json());
-        value.increment();
+        //value.increment();
+        println!("Done!");
+    }
+
+    // Runtime reflection
+    fn send_data_as_json<T: AsJson>(value: &T) {
+        println!(
+            "Sending JSON data to {:?} microcontroller...",
+            std::any::type_name::<T>().split("::").last().unwrap_or("Unknown")
+        );
+        println!("-> {}", value.as_json());
         println!("Done!");
     }
 
     println!("{:?}", &p2);
-    send_data_as_json(&mut p2);
+    send_data_as_json(&p2);
     println!("{:?}", &p2);
+
+    struct Owner {
+        name: String,
+        age: u8,
+        favorite_fruit: String,
+    }
+
+    struct Dog {
+        name: String,
+        color: String,
+        likes_petting: bool,
+    }
+
+    impl AsJson for Owner {
+        fn as_json(&self) -> String {
+            format!(
+                r#"{{ "type": "person", "name": "{}", "age": {}, "favoriteFruit": "{}" }}"#,
+                self.name, self.age, self.favorite_fruit
+            )
+        }
+    }
+
+    impl AsJson for Dog {
+        fn as_json(&self) -> String {
+            format!(
+                r#"{{ "type": "dog", "name": "{}", "color": "{}", "likesPetting": {} }}"#,
+                self.name, self.color, self.likes_petting
+            )
+        }
+    }
+
+    let laura = Owner {
+        name: String::from("Laura"),
+        age: 31,
+        favorite_fruit: String::from("apples"),
+    };
+
+    let fido = Dog {
+        name: String::from("Fido"),
+        color: String::from("Black"),
+        likes_petting: true,
+    };
+
+    send_data_as_json(&laura);
+    send_data_as_json(&fido);
+
+    struct Cat {
+        name: String,
+        sharp_claws: bool,
+    }
+
+    impl AsJson for Cat {
+        fn as_json(&self) -> String {
+            format!(
+                r#"{{ "name": "{}", sharpClaws: {} }}"#,
+                self.name, self.sharp_claws
+            )
+        }
+    }
+
+    let kitty = Cat {
+        name: String::from("Kitty"),
+        sharp_claws: false,
+    };
+
+    send_data_as_json(&kitty);
 }
