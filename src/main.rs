@@ -9,6 +9,7 @@ use quote::*;
 use car::*;
 use person::*;
 use file::*;
+use std::f64::consts::PI;
 
 
 fn main() {
@@ -389,6 +390,7 @@ fn main() {
         vec!["Joe".to_string(), "Chris".to_string(), "Anne".to_string()]
     );
 
+    #[derive(Debug, PartialEq)]
     struct Point<T, U> {
         x: T,
         y: U,
@@ -415,7 +417,6 @@ fn main() {
 
     impl Area<f64> for Circle {
         fn area(&self) -> f64 {
-            use std::f64::consts::PI;
             PI * self.radius.powf(2.0)
         }
     }
@@ -425,4 +426,28 @@ fn main() {
             self.width * self.height
         }
     }
+
+    let circle = Circle {
+        radius: 2.0
+    };
+
+    assert_eq!(circle.area(), PI * 4.0);
+
+    impl std::fmt::Display for Point<i32, i32> {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            write!(f, "({}, {})", self.x, self.y)
+        }
+    }
+
+    let p1 = Point { x: 1, y: 2 };
+    let p2 = Point { x: 4, y: -3 };
+
+    if p1 == p2 { // can't compare two Point values!
+        println!("equal!");
+    } else {
+        println!("not equal!");
+    }
+
+    println!("{}", p1); // can't print using the '{}' format specifier!
+    println!("{:?}", p1); //  can't print using the '{:?}' format specifier!
 }
