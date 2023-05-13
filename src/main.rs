@@ -440,7 +440,7 @@ fn main() {
     }
 
     let p1 = Point { x: 1, y: 2 };
-    let p2 = Point { x: 4, y: -3 };
+    let mut p2 = Point { x: 4, y: -3 };
 
     if p1 == p2 { // can't compare two Point values!
         println!("equal!");
@@ -450,4 +450,31 @@ fn main() {
 
     println!("{}", p1); // can't print using the '{}' format specifier!
     println!("{:?}", p1); //  can't print using the '{:?}' format specifier!
+
+    trait AsJson {
+        fn as_json(&self) -> String;
+        fn increment(&mut self);
+    }
+
+    impl AsJson for Point<i32, i32> {
+        fn as_json(&self) -> String {
+            format!("{{x:{},y:{}}}", &self.x, &self.y)
+        }
+
+        fn increment(&mut self) {
+            self.x += 1;
+        }
+    }
+
+    // Make sure to specify reference parameters to avoid unnecessary memory allocations
+    fn send_data_as_json(value: &mut impl AsJson) {
+        println!("Sending JSON data to microcontroller...");
+        println!("-> {}", value.as_json());
+        value.increment();
+        println!("Done!");
+    }
+
+    println!("{:?}", &p2);
+    send_data_as_json(&mut p2);
+    println!("{:?}", &p2);
 }
