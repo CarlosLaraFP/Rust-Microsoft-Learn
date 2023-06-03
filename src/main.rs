@@ -2,6 +2,7 @@ mod quote;
 mod person;
 mod file;
 mod car;
+mod auth;
 
 use std::any::Any;
 use std::collections::HashMap;
@@ -11,6 +12,7 @@ use car::*;
 use person::*;
 use file::*;
 use std::f64::consts::PI;
+use auth::*;
 
 mod math {
     type Complex = (f64, f64);
@@ -716,37 +718,7 @@ fn main() {
         PubliclyAccessibleVariant2,
     }
 
-    let user = authentication::User::new("Charles", "super-secret");
+    let user = User::new("Charles", "super-secret");
 
     println!("{}", user.to_string());
-}
-
-mod authentication {
-    pub struct User {
-        username: String,
-        password_hash: u64,
-    }
-
-    impl User {
-        pub fn new(username: &str, password: &str) -> User {
-            User {
-                username: username.to_string(),
-                password_hash: hash_password(password),
-            }
-        }
-
-        pub fn get_username(&self) -> &String {
-            &self.username
-        }
-
-        pub fn set_password(&mut self, new_password: &str) {
-            self.password_hash = hash_password(new_password)
-        }
-
-        pub fn to_string(&self) -> String {
-            format!("Username: {}\nPassword: {}", &self.username, &self.password_hash)
-        }
-    }
-
-    fn hash_password(input: &str) -> u64 { 101010101 }
 }
