@@ -1,7 +1,7 @@
 mod quote;
-mod car;
 mod person;
 mod file;
+mod car;
 
 use std::any::Any;
 use std::collections::HashMap;
@@ -11,6 +11,13 @@ use car::*;
 use person::*;
 use file::*;
 use std::f64::consts::PI;
+
+mod math {
+    type Complex = (f64, f64);
+    pub fn sin(f: f64) -> f64 { f }
+    pub fn cos(f: f64) -> f64 { f }
+    pub fn tan(f: f64) -> f64 { f }
+}
 
 
 fn main() {
@@ -656,10 +663,8 @@ fn main() {
                     break;
                 }
             }
-
             // we use the `Vec::drain` to extract items up until the cursor
             let items = self.inner.drain(0..cursor).collect();
-
             // return the extracted items
             Some(items)
         }
@@ -693,5 +698,7 @@ fn main() {
             vec![4, 4],
             vec![3],
         ]
-    )
+    );
+
+    println!("{}", math::cos(45.0));
 }
