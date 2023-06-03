@@ -718,7 +718,11 @@ fn main() {
         PubliclyAccessibleVariant2,
     }
 
-    let user = User::new("Charles", "super-secret");
+    let mut user = User::new("Charles", "super-secret");
+
+    println!("{}", user.to_string());
+
+    user.set_password("new-password");
 
     println!("{}", user.to_string());
 }

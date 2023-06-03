@@ -1,3 +1,6 @@
+// This is the primary trait to use when generating random values
+use rand::Rng;
+
 pub struct User {
     username: String,
     password_hash: u64,
@@ -26,4 +29,6 @@ impl User {
     }
 }
 
-fn hash_password(input: &str) -> u64 { 101010101 }
+fn hash_password(input: &str) -> u64 {
+    rand::thread_rng().gen()
+}
