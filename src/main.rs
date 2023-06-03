@@ -735,8 +735,16 @@ mod authentication {
             }
         }
 
+        pub fn get_username(&self) -> &String {
+            &self.username
+        }
+
+        pub fn set_password(&mut self, new_password: &str) {
+            self.password_hash = hash_password(new_password)
+        }
+
         pub fn to_string(&self) -> String {
-            format!("Username: {}\nPassword: {}", self.username, self.password_hash)
+            format!("Username: {}\nPassword: {}", &self.username, &self.password_hash)
         }
     }
 
