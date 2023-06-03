@@ -701,4 +701,44 @@ fn main() {
     );
 
     println!("{}", math::cos(45.0));
+
+    // Declare a private struct
+    struct Foo;
+
+    // Declare a public struct with a private field
+    pub struct Bar {
+        field: i32,
+    }
+
+    // Declare a public enum with two public variants
+    pub enum State {
+        PubliclyAccessibleVariant,
+        PubliclyAccessibleVariant2,
+    }
+
+    let user = authentication::User::new("Charles", "super-secret");
+
+    println!("{}", user.to_string());
+}
+
+mod authentication {
+    pub struct User {
+        username: String,
+        password_hash: u64,
+    }
+
+    impl User {
+        pub fn new(username: &str, password: &str) -> User {
+            User {
+                username: username.to_string(),
+                password_hash: hash_password(password),
+            }
+        }
+
+        pub fn to_string(&self) -> String {
+            format!("Username: {}\nPassword: {}", self.username, self.password_hash)
+        }
+    }
+
+    fn hash_password(input: &str) -> u64 { 101010101 }
 }
