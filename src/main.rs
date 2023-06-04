@@ -738,6 +738,23 @@ fn main() {
     assert_eq!(count_letters_and_numbers("4 Parkway Drive"), (12, 1));
 }
 
+fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+#[test]
+fn add_works() {
+    assert_eq!(add(1, 2), 3);
+    assert_eq!(add(10, 12), 22);
+    assert_eq!(add(5, -2), 3);
+}
+
+#[test]
+#[should_panic]
+fn add_fails() {
+    assert_eq!(add(2, 2), 7);
+}
+
 /*
     pub: This means an item is public, and it can be accessed from any code that has access to the
     module that contains the item, including from outside of the crate itself. If your crate is
