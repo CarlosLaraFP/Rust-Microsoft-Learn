@@ -13,6 +13,8 @@ use person::*;
 use file::*;
 use std::f64::consts::PI;
 use auth::*;
+use regex::Regex;
+
 
 mod math {
     type Complex = (f64, f64);
@@ -655,7 +657,7 @@ fn main() {
             if self.inner.is_empty() {
                 return None;
             }
-            // lets check the span of equal items
+            // let's check the span of equal items
             let mut cursor = 1;
             let first = &self.inner[0];
             for element in &self.inner[1..] {
@@ -666,6 +668,7 @@ fn main() {
                 }
             }
             // we use the `Vec::drain` to extract items up until the cursor
+            // drain transfers ownership of specified item range from inner to items (move)
             let items = self.inner.drain(0..cursor).collect();
             // return the extracted items
             Some(items)
@@ -725,4 +728,52 @@ fn main() {
     user.set_password("new-password");
 
     println!("{}", user.to_string());
+
+    let re = Regex::new(r"^\d{4}-\d{2}-\d{2}$").unwrap();
+
+    println!("Did our date match? {}", re.is_match("2014-01-01"));
+
+    assert_eq!(count_letters_and_numbers("221B Baker Street"), (12, 3));
+    assert_eq!(count_letters_and_numbers("711 Maple Street"), (11, 3));
+    assert_eq!(count_letters_and_numbers("4 Parkway Drive"), (12, 1));
+}
+
+/*
+    pub: This means an item is public, and it can be accessed from any code that has access to the
+    module that contains the item, including from outside of the crate itself. If your crate is
+    used as a dependency by another crate, the other crate can access all pub items of your crate.
+
+    pub(crate): This means an item is visible to your entire crate, but it is not accessible
+    outside of your crate. This is useful when you want to allow different modules in your crate
+    to use an item, but you do not want to expose it as part of your crate's public API.
+ */
+mod text_processing {
+
+    pub(crate) mod letters {
+        pub(crate) fn count_letters(text: &str) -> usize {
+            text.chars().filter(|ref c| c.is_alphabetic()).count()
+        }
+    }
+
+    pub(crate) mod numbers {
+        pub(crate) fn count_numbers(text: &str) -> usize {
+            text.chars().filter(|ref c| c.is_numeric()).count()
+        }
+    }
+}
+/*
+    Why use usize instead of a fixed-size type? In most cases, if you're working with something
+    where the size could change depending on the platform (like the length of a vector, which can
+    theoretically hold different amounts of elements on 32-bit vs 64-bit platforms), you'd want to
+    use usize. This allows your code to be portable between different architectures without having
+    to worry about size limitations.
+
+    But if you're dealing with data that has a known, fixed size that won't change regardless of
+    platform (like a byte from a file, or a 32-bit pixel color value), you'd typically use one of
+    the fixed-size types.
+ */
+fn count_letters_and_numbers(text: &str) -> (usize, usize) {
+    let number_of_letters = text_processing::letters::count_letters(text);
+    let number_of_numbers = text_processing::numbers::count_numbers(text);
+    (number_of_letters, number_of_numbers)
 }
