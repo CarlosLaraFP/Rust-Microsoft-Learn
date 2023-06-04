@@ -9,7 +9,17 @@ edition = "2021"
 rayon = "1.7.0"
 rand = "0.8.4"
 regex = "1.8.1"
+structopt = "0.3"
+serde_json = "1.0" # The crate that implements the Serialize and Deserialize traits into a chosen file specification format (i.e. JSON)
 
+[dependencies.chrono]
+features = ["serde"]  # We're also going to need the serde feature for the chrono crate, so we can serialize the DateTime field.
+version = "0.4"
+
+# The Rust community recommends the serde crate for handling most serialization and deserialization of Rust data structures efficiently and generically.
+[dependencies.serde]  # The base crate that enables types to derive the Serialize and Deserialize traits.
+features = ["derive"] # We'll need the derive feature.
+version = "1.0"
 
 [dependencies.uuid]
 version = "1.3.2"

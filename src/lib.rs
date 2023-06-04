@@ -1,3 +1,5 @@
+// lib.rs contains the code exposed as a public API
+
 /*
     From the output, we can see that Rust places the results of the tests in separate sections.
     Unit test results come first, then integration results, and finally, documentation results.

@@ -8,7 +8,7 @@ pub struct User {
 }
 
 impl User {
-    pub fn new(username: &str, password: &str) -> User {
+    pub fn new(username: &str, password: &str) -> Self {
         User {
             username: username.to_string(),
             password_hash: hash_password(&password.to_owned()),
