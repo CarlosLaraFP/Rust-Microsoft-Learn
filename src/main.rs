@@ -4,7 +4,6 @@ mod file;
 mod car;
 mod auth;
 
-use std::any::Any;
 use std::collections::HashMap;
 use rayon::prelude::*;
 use quote::*;
@@ -738,21 +737,23 @@ fn main() {
     assert_eq!(count_letters_and_numbers("4 Parkway Drive"), (12, 1));
 }
 
-fn add(a: i32, b: i32) -> i32 {
-    a + b
+fn is_even(num: i32) -> bool {
+    num % 2 == 0
 }
 
-#[test]
-fn add_works() {
-    assert_eq!(add(1, 2), 3);
-    assert_eq!(add(10, 12), 22);
-    assert_eq!(add(5, -2), 3);
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-#[test]
-#[should_panic]
-fn add_fails() {
-    assert_eq!(add(2, 2), 7);
+    #[test]
+    fn is_true_when_even() {
+        assert!(is_even(32));
+    }
+
+    #[test]
+    fn is_false_when_odd() {
+        assert!(!is_even(65));
+    }
 }
 
 /*
