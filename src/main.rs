@@ -4,6 +4,7 @@ mod file;
 mod car;
 mod auth;
 mod cli;
+mod tasks;
 
 use std::collections::HashMap;
 use rayon::prelude::*;
@@ -15,6 +16,8 @@ use std::f64::consts::PI;
 use auth::*;
 use regex::Regex;
 use structopt::StructOpt;
+use cli::{Action::*, CommandLineArgs};
+use tasks::Task;
 
 
 mod math {
@@ -738,8 +741,27 @@ fn main() {
     assert_eq!(count_letters_and_numbers("711 Maple Street"), (11, 3));
     assert_eq!(count_letters_and_numbers("4 Parkway Drive"), (12, 1));
 
-    cli::CommandLineArgs::from_args();
-    println!("{:#?}", cli::CommandLineArgs::from_args());
+    // Get the command-line arguments.
+    let CommandLineArgs {
+        action,
+        journal_file,
+    } = CommandLineArgs::from_args();
+
+    /*
+        Unpack the journal file.
+        Because journal_file is of type Option<PathBuf>, we need to extract the path to our journal
+        file or emit a panic. We'll revisit this step later to make the program look for a default
+        file. For now, this .expect instruction will work fine.
+     */
+    let journal_file = journal_file.expect("Failed to find journal file");
+
+    // Perform the action.
+    match action {
+        Add { text } => tasks::add_task(journal_file, Task::new(text)),
+        List => tasks::list_tasks(journal_file),
+        Done { position } => tasks::complete_task(journal_file, position),
+    }
+        .expect("Failed to perform action")
 }
 
 fn is_even(num: i32) -> bool {

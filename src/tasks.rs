@@ -17,6 +17,12 @@ pub struct Task {
     #[serde(with = "ts_seconds")]
     pub created_at: DateTime<Utc>,
 }
+impl Task {
+    pub fn new(text: String) -> Task {
+        let created_at: DateTime<Utc> = Utc::now();
+        Task { text, created_at }
+    }
+}
 
 impl fmt::Display for Task {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
